@@ -10,8 +10,11 @@ The common application, local database, public catalogue and all first-release c
 - 35 passing tests across domain rules, in-process HTTP handlers and presentation templates: pricing, category search, authorization, account roles, private plan ownership, moderation, quote selection/contact privacy, expired offers, static-file boundaries, logout and database reopen.
 - Presentation templates render all major routes against actual backend records; dynamic HTML escaping is tested.
 
+### Verified on GitHub CI
+The application commit 40cd04ebe55640cd668a682e108c947e9d207244 passed source checks, all 35 tests and the real HTTP smoke test on both Node 22 and Node 24. The observed run is https://github.com/zaman365/savesmart/actions/runs/42531911208. The HTTP test verified the entry page, login/session access to private plans and offer comparison using an actual loopback listener.
+
 ### Verification limits
-The execution environment rejected opening a loopback server with `listen EPERM`. A live desktop/mobile browser review and the real-socket HTTP smoke test could not run here. Responsive breakpoints are implemented but visual acceptance remains pending. GitHub Actions is configured to run checks, tests and the real HTTP smoke test on Node 22/24; consult the actual workflow run before treating CI as verified.
+The local execution environment rejected opening a loopback server with `listen EPERM`. A live desktop/mobile browser review could not run here. Responsive breakpoints are implemented but visual acceptance remains pending. Real-socket HTTP verification succeeded separately in GitHub CI; this does not substitute for browser visual/accessibility review.
 
 ### Remaining before a commercial launch
 - Browser QA at desktop and 390px, full keyboard/accessibility review and any resulting layout corrections.
