@@ -1,0 +1,17 @@
+{
+  "name": "savesmart",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Bangladesh comparison platform, with no required external service or npm dependency",
+  "engines": { "node": ">=22.18.0" },
+  "scripts": {
+    "start": "node server/index.mjs",
+    "dev": "node --watch server/index.mjs",
+    "demo": "node --env-file=.env.example server/index.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "create-admin": "node scripts/create-admin.mjs",
+    "backup": "node scripts/backup.mjs"
+  }
+}
