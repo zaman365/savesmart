@@ -1,3 +1,5 @@
+> Current execution branch: **codex/REVERSE_ENG-platform**. The user's current branch restriction supersedes historical develop instructions below. Start with [REVERSE_ENG_PLAN.md](REVERSE_ENG_PLAN.md) for the new engines and page architecture.
+
 # Codex development plan
 
 ## Outcome
