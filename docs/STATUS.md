@@ -22,11 +22,9 @@
 
 ## Not done yet
 
-- Real data: merchant/affiliate feed import with preview and freshness alarms (Release 2). Demo data only today.
-- Shop links: demo offers have no URLs, so "Go to shop" shows a placeholder line.
-- Email/web-push notifications and keyword deal alerts (in-app only now).
-- Broadband, savings-rate and credit-card comparisons.
-- Report button for deals/comments; self-service account deletion and data export.
-- Rate limits are per process; move to the database before running more than one server.
-- Full accessibility audit with a screen reader; Bangla copy review by a native editor.
-- Load testing and production hosting (VPS in Bangladesh, nginx, backups).
+Prioritised in [COMPARISON.md](COMPARISON.md), which also scores the branch against Check24, mydealz, idealo and the Codex branch (60% feature parity).
+
+- **P0:** first-visit weight over budget (174 KB JS gzipped, 548 KB font; fix with weight-only font files); real shop feeds and working links; report button, password reset, account export/deletion; browser flow tests in CI.
+- **P1:** keyword deal alerts and email/web push; side-by-side spec comparison; broadband, savings and card comparisons; deal images, replies, reputation, sharing; Banglish search aliases.
+- **P2:** shop portal and lead flow; verified shop ratings; travel; PWA.
+- Also open: per-process rate limits, screen-reader audit, Bangla copy review, load testing, production hosting and backups.
