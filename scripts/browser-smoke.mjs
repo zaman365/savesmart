@@ -48,9 +48,20 @@ try{
 
  // Sign in through the rendered form; the same HttpOnly session drives later pages.
  await click('[data-auth="login"]');
+ await route('/discover','.r-directory');
+ assert.equal(await evaluate('document.querySelector("#modal").contains(document.activeElement)'),true,'Route rendering must retain focus inside an open sign-in dialog');
  await fill('[data-form="login"]',{email:'buyer@demo.savesmart.test',password:'DemoCompare24!'});
  await submit('[data-form="login"]');
  await waitDOM(`Boolean(document.querySelector('[data-account]'))&&!document.querySelector('dialog').open`,'buyer sign-in');
+ await route('/sector/home','.r-sector-workbench');
+ assert.equal(await evaluate('document.activeElement===document.querySelector("#main")'),true,'A new workspace starts keyboard focus at its main content');
+ await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
+ await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
+ assert.equal(await evaluate('document.activeElement.getAttribute("href")'),'#/discover','Tab from main reaches the first workspace navigation link');
+ await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
+ await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
+ await waitDOM('location.hash==="#/discover"&&!document.querySelector("main").hasAttribute("aria-busy")&&Boolean(document.querySelector(".r-directory"))','keyboard workspace navigation');
+ assert.equal(await evaluate('document.activeElement===document.querySelector("#main")'),true,'Keyboard navigation focuses the destination main content');
  await route('/sector/home','.r-sector-workbench');
  await click('a[href="#/brief/home"]');
  await waitDOM(`Boolean(document.querySelector('[data-form="sector-brief"]'))`,'sector-specific brief');
@@ -62,6 +73,19 @@ try{
  assert.equal(await evaluate(`document.querySelector('[name="contactConsent"]').checked`),false);
 
  await route('/products?category=home','.r-product-row');
+ // The skip link shares the hash router's URL space; it must focus the current
+ // page without replacing that route with a nonexistent /main view.
+ const routeBeforeSkip=await evaluate('location.hash');
+ await click('.skip');
+ assert.equal(await evaluate('location.hash'),routeBeforeSkip,'Skip link preserves the selected workspace and filters');
+ assert.equal(await evaluate('document.activeElement===document.querySelector("#main")'),true,'Skip link moves keyboard focus to main content');
+ assert.ok(await evaluate('Boolean(document.querySelector(".r-product-row"))'),'Skip link retains the comparison results');
+ await evaluate('document.querySelector(".skip").focus()');
+ await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
+ await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
+ assert.equal(await evaluate('location.hash'),routeBeforeSkip,'Keyboard skip activation preserves the selected workspace and filters');
+ assert.equal(await evaluate('document.activeElement===document.querySelector("#main")'),true,'Enter on the skip link moves keyboard focus to main content');
+ assert.ok(await evaluate('Boolean(document.querySelector(".r-product-row"))'),'Keyboard skip activation retains the comparison results');
  await click('.r-product-row h2 a');
  await waitDOM(`Boolean(document.querySelector('[data-r-differences]'))&&!document.querySelector('main').hasAttribute('aria-busy')`,'canonical product');
  assert.equal(await evaluate(`document.querySelectorAll('.offer-row').length`),3);

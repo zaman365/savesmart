@@ -39,6 +39,7 @@ These credentials exist only in explicit demo mode. To start an empty non-demo d
 - Member reports, complete publication-review metadata and an audited administrator withdrawal workflow.
 - Administrator queues and audit events.
 - Local assets, responsive styling, navigation language toggle and an asset-only PWA shell.
+- Keyboard skip navigation that preserves the current workspace, route-change focus, and contrasting focus indicators. See STATUS.md for verification and remaining accessibility review.
 
 No live supplier booking, checkout, payment custody, email/SMS/push delivery, runtime GPT service or external map is connected. UI navigation has initial Bengali translations; full Bengali content workflows remain a later release. See docs/STATUS.md for limits.
 
