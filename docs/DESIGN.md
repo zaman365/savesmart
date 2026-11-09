@@ -36,3 +36,9 @@ Keyboard focus, labels, errors, pending submissions, success receipts, empty res
 
 ## Design acceptance
 At first glance, a reviewer should recognize a comparison product with a local editorial identity. A new user should find a major industry without reading marketing copy. No decorative metric or testimony may imply actual traction. Use real offer fields to create hierarchy. Check the home, results, comparison, request and merchant pages together; visual consistency does not mean forcing every page into the same card layout.
+
+
+## REVERSE_ENG workspace extension
+The new comparison directory, scope result rows, seller tables, community discussions and watch manager follow [REVERSE_ENG_PLAN.md](REVERSE_ENG_PLAN.md). They use the existing palette and typography, varied page compositions and original copy. Home provides four clear tasks, actual inventory counts, sector entry points, flagship trip/ownership tools, scope comparisons and community rows. No fabricated customer metrics or imitation competitor branding is added.
+
+The default comparison order is payable total; bills, scope, origin, unknown fees and terms remain readable. Differences-only hides equal specification rows while keeping price, fees and actions visible. Mobile layouts preserve table scrolling, labeled controls, visible focus and practical touch targets; actual browser acceptance is still required.

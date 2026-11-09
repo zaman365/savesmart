@@ -13,3 +13,7 @@ test('money is bounded integer arithmetic',()=>{assert.throws(()=>amount(1.25),/
 test('community source links reject script and credential URLs',()=>{assert.throws(()=>safeUrl('javascript:alert(1)'),/http/);assert.throws(()=>safeUrl('https://user:pass@example.com'),/http/);assert.equal(safeUrl('https://example.com/path'),'https://example.com/path');});
 test('expiry must be in the future and within the allowed horizon',()=>{assert.throws(()=>futureDate('2000-01-01'),/expiry/);assert.throws(()=>futureDate('not-a-date'),/expiry/);});
 test('passwords are salted and wrong passwords fail verification',async()=>{const a=await hashPassword('A-unique-password-24!'),b=await hashPassword('A-unique-password-24!');assert.notEqual(a,b);assert.equal(await verifyPassword('A-unique-password-24!',a),true);assert.equal(await verifyPassword('Wrong-password-24!',a),false);});
+
+// Category is part of identity even when a supplier reuses the same free-text label.
+test('same labels in different industries cannot enter a comparison',()=>{const o={category:'travel',price:100,fees:0,comparisonGroup:'standard',unit:'job'};assert.throws(()=>compareOffers([o,{...o,category:'home'}]),/same scope/);});
+test('canonical normalization and the comparison workbench agree',()=>{const o={category:'home',price:100,fees:0,comparisonGroup:'one-job',unit:'One split AC'};assert.equal(compareOffers([o,{...o,price:90,unit:'  one  split ac  '}])[0].price,90);});

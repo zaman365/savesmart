@@ -1,7 +1,7 @@
 name: SaveSmart checks
 on:
   push:
-    branches: [develop, main]
+    branches: ["codex/REVERSE_ENG-*"]
   pull_request:
     branches: [main, develop]
 permissions:
@@ -20,3 +20,13 @@ jobs:
       - run: npm run check
       - run: npm test
       - run: node scripts/http-smoke.mjs
+      - name: Native browser smoke and responsive screenshots
+        if: matrix.node == 24
+        run: node scripts/browser-smoke.mjs
+      - name: Browser review artifacts
+        if: always() && matrix.node == 24
+        uses: actions/upload-artifact@v4
+        with:
+          name: savesmart-browser-review
+          path: artifacts/browser/
+          if-no-files-found: ignore

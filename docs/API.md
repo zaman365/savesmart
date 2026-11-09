@@ -43,3 +43,15 @@ New businesses, merchant offers and community deals start pending. Price edits r
 
 ## Security boundaries
 Prepared SQL for supplied data; per-record ownership checks; fixed allowlists for review tables; scrypt password hashes; random expiring sessions; same-origin mutations; bounded JSON and field sizes; local rate limiting; browser CSP; no static access outside apps/web. User content is rendered as escaped text. These controls are implemented, but a production security review remains part of launch hardening.
+
+
+## REVERSE_ENG extension
+See [REVERSE_ENG_PLAN.md §7](REVERSE_ENG_PLAN.md) for the added discovery, canonical scopes, sector, guide, community, watch and report endpoint contracts. The optional local schema additions are idempotent and leave legacy tables unchanged.
+
+- Canonical IDs normalize category, declared comparison group and billing unit; they exclude price. The comparison endpoint enforces the same category/scope/unit identity. Grouping does not certify matching model, condition, occupancy, credentials or availability.
+- New community price fields require explicit mandatory fees; legacy posts return `feesDeclared:false` and `priceBasis`. Their numeric price is only a listed amount. Such posts are excluded when a maximum payable filter/watch is supplied. Coupons without a checkout amount and discussions have `total:null`.
+- `POST /api/community/:id/comments` accepts `{body}` for active approved threads; expired threads remain readable.
+- `GET /api/admin` retains its legacy queues and adds `deals[].review`: post type, origin, fee declaration, price availability, commercial disclosure, coupon code, payment condition, location and expiry behavior. Administrator authorization is unchanged.
+- `GET /api/moderation` includes publicationStatus/canWithdraw for reported entities. `POST /api/moderation/withdraw` accepts `{kind:'deal'|'offer',entityId,reason}` and requires an administrator and a 10–1000 character reason. It rejects an approved publication in an audited transaction. Withdrawal and resolving a report are separate decisions. Nothing is hard deleted.
+- All watches are owner scoped and evaluated at account-view time. Read signatures change when a price or substantive scope/terms change; this is not an external delivery service.
+- `/brief/:category` is a frontend draft builder using the sector API schema. It hands off to `/ask`; only the final consented request is persisted/distributed through the existing request API.

@@ -47,6 +47,7 @@ Each row is an actual page family, not a marketing card. Retain existing working
 | /compare | Two-to-four offer workbench and differences-only mode | Compatible group/unit validation |
 | /travel | Trip brief across transport/stay/meals; no invented package booking | User input and existing Ask Once persistence |
 | /automotive | Vehicle selection, ownership-cost model and service next step | Explicit user estimates, not resale valuations |
+| /brief/:category | Schema-driven industry requirements, then review in Ask Once | Public schema; no distribution before final consent |
 | /ask | Structured consented brief | Existing requests/assignments/quotes |
 | /community | Latest / community picks / most discussed / expiring; search/category/price filters | Clear heat meaning, deal/coupon/discussion origins |
 | /deal/:id | Full conditions, source, price evidence, expiry, signed votes and actual comments | Moderated record; expired threads retained as history |
@@ -100,6 +101,7 @@ New routes are handled by a separate server module before legacy routes. Factory
 - GET/POST /api/watches → {watches}/created watch; POST {query,category,maxPrice}; GET includes {id,query,category,maxPrice,matches:[{id,kind,title,total,href,unread}],unreadCount}.
 - DELETE /api/watches/:id and POST /api/watches/:id/read; ownership enforced.
 - POST /api/reports → {id,status}; {kind:'deal'|'offer',entityId,reason,detail}.
+- POST /api/moderation/withdraw → {ok,status}; administrator-only {kind,entityId,reason}; audit an approved publication’s withdrawal without deletion.
 - GET /api/moderation → {reports}; POST /api/reports/:id/review {decision:'resolved'|'dismissed',reason}; administrator only.
 
 ## 8. Matching and pricing rules
