@@ -1,0 +1,12 @@
+import test,{before,after} from 'node:test';
+import assert from 'node:assert/strict';
+import {createApp} from '../server/app.mjs';
+import {renderPage} from '../apps/web/pages.js';
+import {e,offerRow,dealRow} from '../apps/web/ui.js';
+import {request,login} from './helpers.mjs';
+let app,state,cookie;const originalFetch=globalThis.fetch;
+before(async()=>{app=await createApp({demoMode:true});cookie=await login(app,'buyer');const b=await request(app,'/api/bootstrap',{cookie});state={...b.data,lang:'en',location:'Dhaka'};globalThis.fetch=async(path,options={})=>{const r=await request(app,path,{method:options.method??'GET',cookie,body:options.body?JSON.parse(options.body):undefined});return {ok:r.status>=200&&r.status<300,status:r.status,json:async()=>r.data};};});
+after(()=>{globalThis.fetch=originalFetch;app.db.close();});
+test('major consumer and merchant views render against actual backend records',async()=>{for(const [path,query]of [['/',''],['/search','category=travel'],['/offer/offer-travel-1',''],['/compare','ids=offer-travel-1,offer-travel-2'],['/ask','category=home'],['/travel',''],['/automotive',''],['/plans',''],['/join',''],['/merchant',''],['/business/sample-home-1',''],['/community',''],['/passport',''],['/about','']]){const html=await renderPage(path,new URLSearchParams(query),state);assert.ok(html.length>500,path);assert.doesNotMatch(html,/\bundefined\b|\[object Object\]/,path);}});
+test('administrator queue renders with role-protected backend data',async()=>{cookie=await login(app,'admin');const b=await request(app,'/api/bootstrap',{cookie});const html=await renderPage('/admin',new URLSearchParams(),{...state,user:b.data.user});assert.match(html,/Business profiles/);assert.match(html,/Recent review activity/);cookie=await login(app,'buyer');});
+test('all user-facing dynamic text is HTML-escaped',()=>{const hostile='<img src=x onerror="alert(1)">';assert.equal(e(hostile),'&lt;img src=x onerror=&quot;alert(1)&quot;&gt;');const o={id:'safe',merchant:hostile,title:hostile,location:hostile,unit:'visit',comparisonGroup:'one',art:'home',attributes:{Scope:hostile},total:1000,rebate:0};const html=offerRow(o);assert.doesNotMatch(html,/<img src=x/);assert.match(html,/&lt;img/);const deal=dealRow({id:'x',votes:0,title:hostile,category:'home',terms:hostile,author:hostile,expires_at:new Date().toISOString(),price:100,comments:0});assert.doesNotMatch(deal,/<img src=x/);});

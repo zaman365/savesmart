@@ -1,0 +1,22 @@
+name: SaveSmart checks
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [main, develop]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm run check
+      - run: npm test
+      - run: node scripts/http-smoke.mjs
