@@ -15,7 +15,8 @@
     "test": "vitest run",
     "create-admin": "node --experimental-strip-types scripts/create-admin.ts",
     "demo": "SAVESMART_DEMO=1 next dev",
-    "check": "tsc --noEmit && vitest run"
+    "check": "tsc --noEmit && vitest run",
+    "preview": "bash scripts/preview.sh"
   },
   "dependencies": {
     "@fontsource-variable/anek-bangla": "5.3.0",

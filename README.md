@@ -18,9 +18,10 @@ Bangla and English throughout, with Bangla numerals and lakh grouping (৳১,�
 Requires Node 22.13 or newer (uses the built-in `node:sqlite`). No paid service, API key or external request is needed.
 
 ```bash
-npm install
-npm run demo          # http://localhost:3000, demo data, banner on every page
+npm run preview       # installs on first run, starts with demo data, opens http://localhost:3000/bn
 ```
+
+Or step by step: `npm install`, then `npm run demo`.
 
 Demo accounts (password `demo-pass-2026`): `rafi@savesmart.local` (member with bKash and BRAC Visa picked) and `admin@savesmart.local` (moderator).
 
