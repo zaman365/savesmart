@@ -160,7 +160,7 @@ notifications(id, user_id, kind, body, link, read_at, created_at)
 
 ## 8. Data, trust and compliance
 
-- **Demo mode.** `SAVESMART_DEMO=1` seeds illustrative data and shows a banner on every page. It refuses to run when `NODE_ENV=production`. Demo shops have invented names; demo prices are not real.
+- **Demo mode.** `SAVESMART_DEMO=1` seeds illustrative data into its own database file (`data/demo.db`) and shows a banner on every page, so demo data can never mix with real data. Demo shops have invented names; demo prices are not real.
 - **Real data (R2).** Merchant feeds and affiliate feeds first. Crawling only with a shop's written permission and robots.txt respected. Every price carries `source` and `checked_at`, shown to users.
 - **Ranking transparency.** "How we rank" page explains the real-price and temperature rules. Sponsored slots, if ever sold, are labelled and never placed inside a ranking.
 - **Affiliate disclosure.** A note beside every outbound shop button.
